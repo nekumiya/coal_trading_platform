@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--导入数据库连接属性配置 -->
+    <properties resource="generator.properties"/>
+    <classPathEntry
+            location="D:\Maven\mvnrep\mysql\mysql-connector-java\8.0.20\mysql-connector-java-8.0.20.jar"/>
+    <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，
+        比如ORACLE就是双引号，MYSQL默认是`反引号； -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!-- 指定生成的java文件的编码,没有直接生成到项目时中文可能会乱码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 为模型生成序列化方法,使用自带序列化插件-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--生成mapper.xml时覆盖原文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <!--可以自定义生成model的代码注释-->
+        <commentGenerator type="com.guet.coal_trading_platform.mbg.CommentGenerator">
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+        <!-- 配置数据库连接 -->
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connectionURL}"
+                        userId="${jdbc.userId}"
+                        password="${jdbc.password}">
+            <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
+            <property name="nullCatalogMeansCurrent" value="true" />
+            <property name="useInformationSchema" value="true" />
+        </jdbcConnection>
+        <!--指定生成model的路径-->
+        <javaModelGenerator targetPackage="com.guet.coal_trading_platform.mbg.model" targetProject="src/main/java"/>
+        <!--指定生成mapper.xml的路径-->
+        <sqlMapGenerator targetPackage="com.guet.coal_trading_platform.mbg.mapper" targetProject="src/main/resources"/>
+        <!--指定生成mapper接口的的路径-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.guet.coal_trading_platform.mbg.mapper"
+                             targetProject="src/main/java"/>
+        <!--生成全部表tableName设为%-->
+        <table tableName="%">
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        </table>
+    </context>
+</generatorConfiguration>

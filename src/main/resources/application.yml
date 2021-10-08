@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: dev_hjt  # 切换运行环境
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8     #查出来的 Date 时间与数据库中的时间相差 8 个小时
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB     #上传单个文件的最大值
+      max-request-size: 10MB  #上传总文件的最大值
+      resolve-lazily: false   # 是否延迟解析multipart请求
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+    freemarker:
+      cache: false    #页面不加载缓存，修改即时生效
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath*:com/**/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true  #使用驼峰命名
+
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mySecret #JWT加解密使用的密钥
+  expiration: 259200 #JWT的超期限时间(60*60*24*3) 三天
+  expirationRefreshToken: 54432000 #JWT的超期限时间(60*60*24*90*1000)
+  tokenHead: Bearer #JWT负载中拿到开头
+
+
+
